@@ -1,0 +1,13 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - dotnet restore
+    build:
+      commands:
+        - dotnet publish -c Release -o ./dist
+  artifacts:
+    baseDirectory: /dist/wwwroot
+    files:
+      - '**/*'
