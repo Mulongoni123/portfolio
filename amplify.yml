@@ -3,21 +3,19 @@ frontend:
   phases:
     preBuild:
       commands:
-        # Update system and install prerequisites
-        - apt-get update && apt-get install -y wget
-        # Download and install .NET 8.0
-        - wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-        - dpkg -i packages-microsoft-prod.deb
-        - rm packages-microsoft-prod.deb
-        - apt-get update
-        - apt-get install -y dotnet-sdk-8.0
-        # Verify .NET installation
-        - dotnet --info
-        # Restore NuGet packages
+        # Install .NET 8.0 using official script (works on Amazon Linux)
+        - curl -L https://dot.net/v1/dotnet-install.sh -o dotnet-install.sh
+        - chmod +x dotnet-install.sh
+        - ./dotnet-install.sh --channel 8.0 --install-dir /root/.dotnet
+        - export DOTNET_ROOT=/root/.dotnet
+        - export PATH=$PATH:/root/.dotnet
+        # Verify installation
+        - dotnet --version
+        # Restore dependencies
         - dotnet restore
     build:
       commands:
-        # Build and publish the application
+        # Build and publish
         - dotnet publish -c Release -o ./dist
   artifacts:
     baseDirectory: /dist/wwwroot
