@@ -1,0 +1,392 @@
+﻿@model Portfolio.Models.PortfolioModel
+
+@{
+    ViewData["Title"] = "Skills - MULONGONI WASHU";
+}
+
+<!-- Skills Hero -->
+<section class="skills-hero-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-4" data-aos="fade-up">Technical Skills</h1>
+                <p class="lead" data-aos="fade-up" data-aos-delay="100">
+                    A comprehensive overview of my technical expertise across various domains
+                    of software development and technologies.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Overview -->
+<section class="section">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-title" data-aos="fade-up">Skills Overview</h2>
+                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+                    Proficiency levels across different technology stacks
+                </p>
+            </div>
+        </div>
+
+        <!-- Animated Skill Bars -->
+        <div class="row">
+            @foreach (var category in Model.TechnicalSkills)
+            {
+                <div class="col-lg-6 mb-5" data-aos="fade-up">
+                    <div class="skill-category-card">
+                        <div class="skill-category-header">
+                            <div class="skill-category-icon">
+                                <i class="@category.Icon"></i>
+                            </div>
+                            <h4>@category.Name</h4>
+                        </div>
+                        <div class="skill-bars">
+                            @foreach (var skill in category.Skills)
+                            {
+                                <div class="skill-item">
+                                    <div class="skill-info">
+                                        <span class="skill-name">@skill.Name</span>
+                                        <span class="skill-percentage">@skill.Proficiency%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-progress="@skill.Proficiency"
+                                             style="background: @skill.Color; width: 0%"></div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Technology Icons Grid -->
+<section class="section bg-light">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-title" data-aos="fade-up">Technologies & Tools</h2>
+                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+                    Technologies I work with regularly
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            @{
+                var allSkills = Model.TechnicalSkills.SelectMany(c => c.Skills).ToList();
+                var techIcons = new Dictionary<string, string>
+                        {
+                        { "C#", "fab fa-microsoft" },
+                        { "Java", "fab fa-java" },
+                        { "PHP", "fab fa-php" },
+                        { "JavaScript", "fab fa-js" },
+                        { "SQL", "fas fa-database" },
+                        { "ASP.NET Core MVC", "fab fa-microsoft" },
+                        { "Bootstrap 5", "fab fa-bootstrap" },
+                        { "HTML5", "fab fa-html5" },
+                        { "CSS3", "fab fa-css3-alt" },
+                        { "REST APIs", "fas fa-code" },
+                        { "Android (Java)", "fab fa-android" },
+                        { "Java Swing", "fab fa-java" },
+                        { "Firestore", "fas fa-database" },
+                        { "MySQL", "fas fa-database" },
+                        { "Oracle", "fas fa-database" },
+                        { "Git/GitHub", "fab fa-github" },
+                        { "Visual Studio", "fas fa-code" },
+                        { "Android Studio", "fab fa-android" },
+                        { "VS Code", "fas fa-code" },
+                        { "Firebase", "fas fa-fire" },
+                        { "Google Cloud", "fab fa-google" }
+                        };
+            }
+            @foreach (var skill in allSkills)
+            {
+                <div class="col-lg-2 col-md-3 col-4 mb-4" data-aos="zoom-in" data-aos-delay="50">
+                    <div class="tech-icon-card">
+                        <div class="tech-icon" style="color: @skill.Color">
+                            @if (techIcons.ContainsKey(skill.Name))
+                            {
+                                <i class="@techIcons[skill.Name]"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-code"></i>
+                            }
+                        </div>
+                        <span class="tech-name">@skill.Name</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Methodology & Approach -->
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="row">
+                    <div class="col-lg-6" data-aos="fade-right">
+                        <h2 class="section-title">Development Approach</h2>
+                        <div class="approach-list">
+                            <div class="approach-item">
+                                <div class="approach-icon">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <div class="approach-content">
+                                    <h5>Clean Code</h5>
+                                    <p>Writing maintainable, readable, and efficient code following best practices and design patterns.</p>
+                                </div>
+                            </div>
+                            <div class="approach-item">
+                                <div class="approach-icon">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <div class="approach-content">
+                                    <h5>Responsive Design</h5>
+                                    <p>Creating applications that work seamlessly across all devices and screen sizes.</p>
+                                </div>
+                            </div>
+                            <div class="approach-item">
+                                <div class="approach-icon">
+                                    <i class="fas fa-rocket"></i>
+                                </div>
+                                <div class="approach-content">
+                                    <h5>Performance Optimization</h5>
+                                    <p>Focusing on fast loading times and smooth user experiences.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6" data-aos="fade-left">
+                        <h2 class="section-title">Methodologies</h2>
+                        <div class="methodology-cards">
+                            <div class="methodology-card">
+                                <h5>Agile Development</h5>
+                                <p>Experience with Scrum and Kanban methodologies for efficient project delivery.</p>
+                            </div>
+                            <div class="methodology-card">
+                                <h5>Test-Driven Development</h5>
+                                <p>Writing tests before code to ensure reliability and maintainability.</p>
+                            </div>
+                            <div class="methodology-card">
+                                <h5>Version Control</h5>
+                                <p>Proficient with Git and GitHub for collaborative development.</p>
+                            </div>
+                            <div class="methodology-card">
+                                <h5>CI/CD</h5>
+                                <p>Experience with continuous integration and deployment pipelines.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Styles {
+    <style>
+        .skills-hero-section {
+            padding: 120px 0 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .skill-category-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            height: 100%;
+        }
+
+        .skill-category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .skill-category-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), #667eea);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+
+        .skill-category-header h4 {
+            margin: 0;
+            color: var(--text-dark);
+        }
+
+        .skill-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-name {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .skill-percentage {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .skill-bar {
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1.5s ease-in-out;
+        }
+
+        /* Technology Icons */
+        .tech-icon-card {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            height: 100%;
+        }
+
+            .tech-icon-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            }
+
+        .tech-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tech-name {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            word-break: break-word;
+        }
+
+        /* Approach Styles */
+        .approach-item {
+            display: flex;
+            margin-bottom: 2rem;
+        }
+
+        .approach-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .approach-content h5 {
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .approach-content p {
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        /* Methodology Cards */
+        .methodology-cards {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .methodology-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary-color);
+        }
+
+            .methodology-card h5 {
+                color: var(--text-dark);
+                margin-bottom: 0.5rem;
+            }
+
+            .methodology-card p {
+                color: var(--text-light);
+                margin: 0;
+                font-size: 0.9rem;
+            }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        // Animate skill bars when they come into view
+        function animateSkillBars() {
+            const skillProgresses = document.querySelectorAll('.skill-progress');
+
+            skillProgresses.forEach(progress => {
+                const progressWidth = progress.getAttribute('data-progress') + '%';
+                progress.style.width = progressWidth;
+            });
+        }
+
+        // Use Intersection Observer to trigger animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateSkillBars();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        // Observe the skills section
+        const skillsSection = document.querySelector('.section');
+        if (skillsSection) {
+            observer.observe(skillsSection);
+        }
+
+        // Fallback: animate on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(animateSkillBars, 500);
+        });
+    </script>
+}

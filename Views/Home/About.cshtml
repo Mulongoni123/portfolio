@@ -1,0 +1,499 @@
+﻿@model Portfolio.Models.PortfolioModel
+
+@{
+    ViewData["Title"] = "About - MULONGONI WASHU";
+}
+
+<!-- About Hero Section -->
+<section class="about-hero-section">
+    <div class="container">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h1 class="display-4 fw-bold mb-4">About Me</h1>
+                <p class="lead mb-4">@Model.Summary.DetailedDescription</p>
+                <div class="about-stats row">
+                    <div class="col-4">
+                        <div class="stat-item">
+                            <h3 class="text-primary">@Model.Projects.Count+</h3>
+                            <p>Projects Completed</p>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="stat-item">
+                            <h3 class="text-primary">@Model.TechnicalSkills.Sum(s => s.Skills.Count)+</h3>
+                            <p>Technologies</p>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="stat-item">
+                            <h3 class="text-primary">2+</h3>
+                            <p>Years Experience</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="about-image">
+                    <img src="@Model.Personal.ProfileImage" alt="@Model.Personal.FullName" class="img-fluid rounded-3">
+                    <div class="floating-elements">
+                        <div class="floating-element element-1">
+                            <i class="fab fa-csharp"></i>
+                        </div>
+                        <div class="floating-element element-2">
+                            <i class="fab fa-java"></i>
+                        </div>
+                        <div class="floating-element element-3">
+                            <i class="fab fa-js"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Personal Story Section -->
+<section class="section bg-light">
+    <div class="container">
+        <div class="row" data-aos="fade-up">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-title">My Journey</h2>
+                <p class="section-subtitle">From passion to profession</p>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-lg-10 mx-auto">
+                <div class="story-content" data-aos="fade-up" data-aos-delay="100">
+                    <p class="story-text">
+                        My journey in software development began with a curiosity about how technology can solve real-world problems.
+                        As a final-year Software Development student at Rosebank College, I've immersed myself in various technologies
+                        and frameworks, constantly pushing the boundaries of what I can create.
+                    </p>
+                    <p class="story-text">
+                        I specialize in full-stack development with ASP.NET Core, Java, and modern web technologies. My experience spans
+                        from building enterprise-level web applications to mobile apps and desktop solutions. I'm particularly passionate
+                        about creating scalable, maintainable code that makes a difference.
+                    </p>
+                    <div class="personal-quote mt-4">
+                        <blockquote class="blockquote">
+                            <p>"Code is like humor. When you have to explain it, it's bad."</p>
+                            <footer class="blockquote-footer">Cory House</footer>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Education Timeline -->
+<section class="section">
+    <div class="container">
+        <div class="row" data-aos="fade-up">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-title">Education Timeline</h2>
+                <p class="section-subtitle">My academic journey and qualifications</p>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-lg-8 mx-auto">
+                <div class="timeline">
+                    @foreach (var education in Model.Educations)
+                    {
+                        <div class="timeline-item" data-aos="fade-up">
+                            <div class="timeline-marker">
+                                <i class="@education.Icon"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <h4>@education.Degree</h4>
+                                    <span class="timeline-period">@education.Period</span>
+                                </div>
+                                <h5 class="text-primary">@education.Institution</h5>
+                                <p>@education.Details</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Certifications Grid -->
+<section class="section bg-light">
+    <div class="container">
+        <div class="row" data-aos="fade-up">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-title">Certifications</h2>
+                <p class="section-subtitle">Professional certifications and achievements</p>
+            </div>
+        </div>
+        <div class="row mt-5">
+            @foreach (var cert in Model.Certifications)
+            {
+                <div class="col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="certification-card">
+                        <div class="certification-badge">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <div class="certification-content">
+                            <h5>@cert.Title</h5>
+                            <p class="cert-issuer">@cert.Issuer</p>
+                            <span class="cert-date">@cert.Date</span>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Achievements Carousel -->
+<section class="section">
+    <div class="container">
+        <div class="row" data-aos="fade-up">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-title">Achievements & Involvement</h2>
+                <p class="section-subtitle">Recognition and professional involvement</p>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-lg-10 mx-auto">
+                <div id="achievementsCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        @for (int i = 0; i < Model.Achievements.Count; i++)
+                        {
+                            <button type="button" data-bs-target="#achievementsCarousel" data-bs-slide-to="@i"
+                                    class="@(i == 0 ? "active" : "")" aria-current="@(i == 0 ? "true" : "false")"
+                                    aria-label="Slide @(i + 1)"></button>
+                        }
+                    </div>
+                    <div class="carousel-inner">
+                        @for (int i = 0; i < Model.Achievements.Count; i++)
+                        {
+                            <div class="carousel-item @(i == 0 ? "active" : "")">
+                                <div class="achievement-slide text-center">
+                                    <div class="achievement-icon">
+                                        <i class="@Model.Achievements[i].Icon"></i>
+                                    </div>
+                                    <h4 class="achievement-title">@Model.Achievements[i].Title</h4>
+                                    <p class="achievement-description">@Model.Achievements[i].Description</p>
+                                    <span class="achievement-date">@Model.Achievements[i].Date</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#achievementsCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#achievementsCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Additional Information -->
+<section class="section bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="additional-info-card" data-aos="fade-up">
+                    <h3 class="text-center mb-4">Additional Information</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <i class="fas fa-clock text-primary me-3"></i>
+                                <div>
+                                    <strong>Availability:</strong>
+                                    <p class="mb-0">@Model.AdditionalInfo.Availability</p>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-passport text-primary me-3"></i>
+                                <div>
+                                    <strong>Work Authorization:</strong>
+                                    <p class="mb-0">@Model.AdditionalInfo.WorkAuthorization</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-item">
+                                <i class="fas fa-map-marker-alt text-primary me-3"></i>
+                                <div>
+                                    <strong>Willing to Relocate:</strong>
+                                    <p class="mb-0">@Model.AdditionalInfo.WillingToRelocate</p>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-heart text-primary me-3"></i>
+                                <div>
+                                    <strong>Hobbies & Interests:</strong>
+                                    <p class="mb-0">@Model.AdditionalInfo.Hobbies</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Styles {
+    <style>
+        .about-hero-section {
+            padding: 120px 0 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .about-stats {
+            margin-top: 3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .about-image {
+            position: relative;
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .floating-element {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            backdrop-filter: blur(10px);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .element-1 {
+            top: 10%;
+            left: -20px;
+            animation-delay: 0s;
+        }
+
+        .element-2 {
+            top: 50%;
+            right: -20px;
+            animation-delay: 1s;
+        }
+
+        .element-3 {
+            bottom: 20%;
+            left: 30%;
+            animation-delay: 2s;
+        }
+
+        @@keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .story-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .personal-quote {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .personal-quote blockquote {
+            font-style: italic;
+            font-size: 1.2rem;
+        }
+
+        /* Timeline Styles */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            padding-left: 80px;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 0;
+            width: 60px;
+            height: 60px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-header h4 {
+            margin: 0;
+            flex: 1;
+        }
+
+        .timeline-period {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Certification Styles */
+        .certification-card {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .certification-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .certification-badge {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color), #667eea);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            margin-right: 1.5rem;
+        }
+
+        .certification-content h5 {
+            margin-bottom: 0.5rem;
+        }
+
+        .cert-issuer {
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .cert-date {
+            background: var(--bg-light);
+            padding: 0.25rem 1rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+
+        /* Achievements Carousel */
+        .achievement-slide {
+            padding: 4rem 2rem;
+        }
+
+        .achievement-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary-color), #667eea);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            margin: 0 auto 2rem;
+        }
+
+        .achievement-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .achievement-description {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .achievement-date {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+        }
+
+        /* Additional Info */
+        .additional-info-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .info-item i {
+            font-size: 1.5rem;
+        }
+    </style>
+}

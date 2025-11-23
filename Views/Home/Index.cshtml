@@ -1,0 +1,727 @@
+﻿@model Portfolio.Models.PortfolioModel
+
+@{
+    ViewData["Title"] = "Home - MULONGONI WASHU";
+}
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-6" data-aos="fade-right">
+                <!-- Animated Greeting -->
+                <div class="greeting-container mb-3">
+                    <h2 class="greeting-text" id="greeting">
+                        <span class="greeting-prefix">Hello, </span>
+                        <span class="greeting-content"></span>
+                    </h2>
+                </div>
+
+                <h1 class="hero-title">I'm <span class="text-primary">@Model.Personal.FullName</span></h1>
+                <h2 class="hero-subtitle">@Model.Summary.Title</h2>
+                <p class="hero-description lead mb-4">@Model.Summary.Description</p>
+                <div class="hero-buttons">
+                    <a asp-action="Projects" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-rocket me-2"></i>View My Work
+                    </a>
+                    <a asp-action="Contact" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-paper-plane me-2"></i>Get In Touch
+                    </a>
+                </div>
+                <div class="hero-social mt-4">
+                    <a href="@Model.Personal.GitHub" class="social-icon" target="_blank">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="@Model.Personal.LinkedIn" class="social-icon" target="_blank">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="mailto:@Model.Personal.Email" class="social-icon">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="hero-image">
+                    <div class="profile-card">
+                        <div class="profile-image">
+                            <img src="@Model.Personal.ProfileImage" alt="@Model.Personal.FullName" class="img-fluid">
+                        </div>
+                        <div class="profile-info">
+                            <h4>@Model.Personal.FullName</h4>
+                            <p>@Model.Personal.Title</p>
+                            <div class="profile-stats">
+                                <div class="stat">
+                                    <h5>@Model.Projects.Count+</h5>
+                                    <span>Projects</span>
+                                </div>
+                                <div class="stat">
+                                    <h5>@Model.TechnicalSkills.Sum(s => s.Skills.Count)+</h5>
+                                    <span>Skills</span>
+                                </div>
+                                <div class="stat">
+                                    <h5>2+</h5>
+                                    <span>Years</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Achievement Section -->
+<section class="achievement-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="achievement-badge" id="visitorBadge">
+                    <i class="fas fa-trophy"></i>
+                    <span>Visitor #<span id="visitorCount">1</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Projects Section -->
+<section class="section bg-light">
+    <div class="container">
+        <div class="row mb-5" data-aos="fade-up">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-title">Featured Projects</h2>
+                <p class="section-subtitle">Some of my recent work that I'm proud of</p>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var project in Model.Projects.Take(2))
+            {
+                <div class="col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="@project.ImageUrl" alt="@project.Title" class="img-fluid">
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    <a href="@project.LiveUrl" class="project-link" target="_blank">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                    <a href="@project.GitHubUrl" class="project-link" target="_blank">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h4>@project.Title</h4>
+                            <p>@project.Description</p>
+                            <div class="project-technologies">
+                                @foreach (var tech in project.Technologies.Take(3))
+                                {
+                                    <span class="tech-tag">@tech</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="text-center mt-4" data-aos="fade-up">
+            <a asp-action="Projects" class="btn btn-outline-primary">
+                View All Projects <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Skill Mastery Game Section -->
+<section class="section">
+    <div class="container">
+        <div class="row mb-5" data-aos="fade-up">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-title">Skill Mastery</h2>
+                <p class="section-subtitle">Click to reveal my proficiency levels</p>
+            </div>
+        </div>
+
+        <div class="skill-game-container">
+            <div class="row">
+                @foreach (var category in Model.TechnicalSkills.Take(3))
+                {
+                    <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up">
+                        <div class="skill-game-card" data-category="@category.Name">
+                            <div class="skill-game-icon">
+                                <i class="@category.Icon"></i>
+                            </div>
+                            <h5>@category.Name</h5>
+                            <div class="skill-lock">
+                                <i class="fas fa-lock"></i>
+                                <span>Click to unlock</span>
+                            </div>
+                            <div class="skill-progress-hidden">
+                                @foreach (var skill in category.Skills.Take(3))
+                                {
+                                    <div class="skill-bar-hidden" data-skill="@skill.Name" data-level="@skill.Proficiency">
+                                        <div class="skill-info">
+                                            <span>@skill.Name</span>
+                                            <span class="level-badge">Level @(skill.Proficiency / 20)</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: 0%; background: @skill.Color;"></div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="text-center mt-4" data-aos="fade-up">
+            <a asp-action="Skills" class="btn btn-outline-primary">
+                View All Skills <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Code Challenge Arena -->
+<section class="challenge-section bg-light">
+    <div class="container">
+        <div class="row mb-5" data-aos="fade-up">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-title">Code Challenge Arena</h2>
+                <p class="section-subtitle">Test your programming skills with these mini-challenges</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Challenge 1: Bug Hunter -->
+            <div class="col-lg-6 mb-4" data-aos="fade-right">
+                <div class="challenge-card">
+                    <div class="challenge-header">
+                        <i class="fas fa-bug challenge-icon"></i>
+                        <h4>Bug Hunter</h4>
+                        <span class="difficulty-badge easy">Easy</span>
+                    </div>
+                    <div class="challenge-content">
+                        <p>Can you spot the bug in this C# code?</p>
+                        <div class="code-snippet">
+                            <pre><code class="language-csharp">
+public class Calculator
+{
+    public int Add(int a, int b)
+    {
+        return a - b; // 🐛 Bug here!
+    }
+    
+    public int Multiply(int a, int b)
+    {
+        return a * b;
+    }
+}
+                            </code></pre>
+                        </div>
+                        <div class="challenge-options">
+                            <button class="btn btn-outline-danger option-btn" data-correct="false">
+                                Missing semicolon
+                            </button>
+                            <button class="btn btn-outline-success option-btn" data-correct="true">
+                                Wrong operator in Add method
+                            </button>
+                            <button class="btn btn-outline-danger option-btn" data-correct="false">
+                                No return type specified
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Challenge 2: Logic Master -->
+            <div class="col-lg-6 mb-4" data-aos="fade-left">
+                <div class="challenge-card">
+                    <div class="challenge-header">
+                        <i class="fas fa-brain challenge-icon"></i>
+                        <h4>Logic Master</h4>
+                        <span class="difficulty-badge medium">Medium</span>
+                    </div>
+                    <div class="challenge-content">
+                        <p>What will this JavaScript code output?</p>
+                        <div class="code-snippet">
+                            <pre><code class="language-javascript">
+console.log(1 + "1" - 1);
+console.log([] + [] + 'foo'.split(''));
+console.log(true + false);
+                            </code></pre>
+                        </div>
+                        <div class="challenge-options">
+                            <button class="btn btn-outline-danger option-btn" data-correct="false">
+                                "11", "f,o,o", 1
+                            </button>
+                            <button class="btn btn-outline-success option-btn" data-correct="true">
+                                10, "f,o,o", 1
+                            </button>
+                            <button class="btn btn-outline-danger option-btn" data-correct="false">
+                                2, "foo", true
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="challenge-stats text-center mt-5">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <h3 id="challengesSolved">0</h3>
+                    <p>Challenges Solved</p>
+                </div>
+                <div class="stat-item">
+                    <h3 id="successRate">0%</h3>
+                    <p>Success Rate</p>
+                </div>
+                <div class="stat-item">
+                    <h3 id="codeLevel">Beginner</h3>
+                    <p>Your Level</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section bg-primary text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8" data-aos="fade-right">
+                <h3 class="cta-title">Ready to work together?</h3>
+                <p class="cta-description">Let's discuss your next project and how I can help bring your ideas to life.</p>
+            </div>
+            <div class="col-lg-4 text-lg-end" data-aos="fade-left">
+                <a asp-action="Contact" class="btn btn-light btn-lg">
+                    Get In Touch <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Greeting Animation Styles */
+    .greeting-container {
+        position: relative;
+        min-height: 60px;
+    }
+
+    .greeting-text {
+        font-size: 1.5rem;
+        font-weight: 300;
+        color: white;
+        margin-bottom: 1rem;
+    }
+
+    .greeting-prefix {
+        opacity: 0.9;
+    }
+
+    .greeting-content {
+        color: var(--primary-color);
+        font-weight: 600;
+        position: relative;
+    }
+
+        .greeting-content::after {
+            content: '|';
+            animation: blink 1s infinite;
+            margin-left: 2px;
+            color: var(--primary-color);
+        }
+
+    @@keyframes blink {
+        0%, 50% {
+            opacity: 1;
+        }
+        51%, 100% {
+            opacity: 0;
+        }
+    }
+
+    /* Achievement System Styles */
+    .achievement-section {
+        padding: 20px 0;
+    }
+
+    .achievement-badge {
+        display: inline-flex;
+        align-items: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-weight: 600;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        animation: bounce 2s infinite;
+    }
+
+    .achievement-badge i {
+        margin-right: 10px;
+        font-size: 1.2em;
+    }
+
+    @@keyframes bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+        40% { transform: translateY(-10px); }
+        60% { transform: translateY(-5px); }
+    }
+
+    /* Skill Game Styles */
+    .skill-game-container {
+        margin-bottom: 2rem;
+    }
+
+    .skill-game-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: var(--shadow);
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+    }
+
+    .skill-game-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+
+    .skill-game-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--primary-color), #667eea);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+        margin: 0 auto 1rem;
+    }
+
+    .skill-lock {
+        color: var(--text-light);
+        transition: all 0.3s ease;
+    }
+
+    .skill-progress-hidden {
+        display: none;
+        margin-top: 1rem;
+    }
+
+    .skill-bar-hidden {
+        margin-bottom: 1rem;
+        text-align: left;
+    }
+
+    .skill-bar-hidden .skill-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .level-badge {
+        background: var(--primary-color);
+        color: white;
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-size: 0.7rem;
+    }
+
+    .skill-game-card.unlocked .skill-lock {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    .skill-game-card.unlocked .skill-progress-hidden {
+        display: block;
+        animation: fadeInUp 0.5s ease;
+    }
+
+    .progress {
+        height: 8px;
+        background-color: #e9ecef;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    .progress-bar {
+        height: 100%;
+        border-radius: 4px;
+        transition: width 1s ease-in-out;
+    }
+
+    /* Code Challenge Styles */
+    .challenge-section {
+        padding: 80px 0;
+    }
+
+    .challenge-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        height: 100%;
+        transition: transform 0.3s ease;
+    }
+
+    .challenge-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .challenge-header {
+        background: linear-gradient(135deg, var(--primary-color), #667eea);
+        color: white;
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .challenge-icon {
+        font-size: 1.5rem;
+    }
+
+    .challenge-header h4 {
+        margin: 0;
+        flex: 1;
+    }
+
+    .difficulty-badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .difficulty-badge.easy {
+        background: #28a745;
+        color: white;
+    }
+
+    .difficulty-badge.medium {
+        background: #ffc107;
+        color: black;
+    }
+
+    .challenge-content {
+        padding: 1.5rem;
+    }
+
+    .code-snippet {
+        background: #2d2d2d;
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 1rem 0;
+        color: white;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9rem;
+        overflow-x: auto;
+    }
+
+    .challenge-options {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+
+    .option-btn {
+        text-align: left;
+        transition: all 0.3s ease;
+    }
+
+    .challenge-stats {
+        margin-top: 2rem;
+    }
+
+    .stats-container {
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        flex-wrap: wrap;
+    }
+
+    .stat-item {
+        text-align: center;
+    }
+
+    .stat-item h3 {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-item p {
+        color: var(--text-light);
+        margin: 0;
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<script>
+    // South African Languages Greeting Animation
+    document.addEventListener('DOMContentLoaded', function () {
+        const greetings = [
+            { language: "English", text: "Hello!", flag: "🇿🇦" },
+            { language: "isiZulu", text: "Sawubona!", flag: "🇿🇦" },
+            { language: "isiXhosa", text: "Molo!", flag: "🇿🇦" },
+            { language: "Afrikaans", text: "Hallo!", flag: "🇿🇦" },
+            { language: "Sepedi", text: "Dumela!", flag: "🇿🇦" },
+            { language: "Setswana", text: "Dumela!", flag: "🇿🇦" },
+            { language: "Sesotho", text: "Lumela!", flag: "🇿🇦" },
+            { language: "Xitsonga", text: "Avuxeni!", flag: "🇿🇦" },
+            { language: "Tshivenda", text: "Ndaa!", flag: "🇿🇦" }
+        ];
+
+        const greetingElement = document.querySelector('.greeting-content');
+        let currentIndex = 0;
+        let isDeleting = false;
+        let currentText = '';
+        let currentGreeting = greetings[0];
+        let typingSpeed = 100;
+        let pauseTime = 2000;
+
+        function typeGreeting() {
+            currentGreeting = greetings[currentIndex];
+
+            if (isDeleting) {
+                // Deleting text
+                currentText = currentGreeting.text.substring(0, currentText.length - 1);
+            } else {
+                // Typing text
+                currentText = currentGreeting.text.substring(0, currentText.length + 1);
+            }
+
+            // Display text with flag
+            greetingElement.innerHTML = currentGreeting.flag + ' ' + currentText;
+
+            // Calculate typing speed
+            let typeSpeed = typingSpeed;
+
+            if (isDeleting) {
+                typeSpeed /= 2; // Faster when deleting
+            }
+
+            // If word is complete
+            if (!isDeleting && currentText === currentGreeting.text) {
+                typeSpeed = pauseTime; // Pause at the end
+                isDeleting = true;
+            } else if (isDeleting && currentText === '') {
+                isDeleting = false;
+                currentIndex = (currentIndex + 1) % greetings.length; // Move to next greeting
+                typeSpeed = 500; // Brief pause before next greeting
+            }
+
+            setTimeout(typeGreeting, typeSpeed);
+        }
+
+        // Start the greeting animation after a short delay
+        setTimeout(typeGreeting, 1000);
+
+        // Visitor counter with localStorage
+        let visitorCount = localStorage.getItem('visitorCount');
+        if (!visitorCount) {
+            visitorCount = 1;
+        } else {
+            visitorCount = parseInt(visitorCount) + 1;
+        }
+        localStorage.setItem('visitorCount', visitorCount);
+        document.getElementById('visitorCount').textContent = visitorCount;
+
+        // Skill unlock game
+        const skillCards = document.querySelectorAll('.skill-game-card');
+        skillCards.forEach(card => {
+            card.addEventListener('click', function() {
+                if (!this.classList.contains('unlocked')) {
+                    this.classList.add('unlocked');
+                    
+                    // Animate progress bars
+                    const progressBars = this.querySelectorAll('.progress-bar');
+                    progressBars.forEach(bar => {
+                        const skillLevel = bar.parentElement.parentElement.getAttribute('data-level');
+                        setTimeout(() => {
+                            bar.style.width = skillLevel + '%';
+                        }, 300);
+                    });
+                }
+            });
+        });
+
+        // Code Challenge Game
+        let challengesSolved = parseInt(localStorage.getItem('challengesSolved') || '0');
+        let totalAttempts = parseInt(localStorage.getItem('totalAttempts') || '0');
+        updateChallengeStats();
+
+        const optionButtons = document.querySelectorAll('.option-btn');
+        
+        optionButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const isCorrect = this.getAttribute('data-correct') === 'true';
+                totalAttempts++;
+                
+                if (isCorrect) {
+                    this.classList.remove('btn-outline-success');
+                    this.classList.add('btn-success');
+                    challengesSolved++;
+                    
+                    // Show success animation
+                    this.innerHTML += ' <i class="fas fa-check"></i>';
+                } else {
+                    this.classList.remove('btn-outline-danger');
+                    this.classList.add('btn-danger');
+                    this.innerHTML += ' <i class="fas fa-times"></i>';
+                }
+                
+                // Disable all buttons in this challenge
+                const parentChallenge = this.closest('.challenge-card');
+                parentChallenge.querySelectorAll('.option-btn').forEach(btn => {
+                    btn.disabled = true;
+                });
+                
+                // Update stats
+                localStorage.setItem('challengesSolved', challengesSolved);
+                localStorage.setItem('totalAttempts', totalAttempts);
+                updateChallengeStats();
+            });
+        });
+
+        function updateChallengeStats() {
+            document.getElementById('challengesSolved').textContent = challengesSolved;
+            
+            const successRate = totalAttempts > 0 ? Math.round((challengesSolved / totalAttempts) * 100) : 0;
+            document.getElementById('successRate').textContent = successRate + '%';
+            
+            // Determine level based on performance
+            let level = 'Beginner';
+            if (challengesSolved >= 3) level = 'Intermediate';
+            if (challengesSolved >= 6) level = 'Advanced';
+            if (challengesSolved >= 10) level = 'Expert';
+            
+            document.getElementById('codeLevel').textContent = level;
+        }
+    });
+</script>
